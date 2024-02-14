@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de tarefas</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        h1 {
+            color:rgb(29, 117, 146);
+        }
+
+        /* Estilos para preencher toda a área do navegador */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: lightblue;
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        button {
+            padding: 5px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            padding: 5px;
+        }
+
+        /* Remove os pontos e o espaçamento à esquerda da lista */
+        #listaAtividades {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        /* Estilo para texto riscado */
+        .concluida {
+            text-decoration: line-through;
+        }
+
+        /* Estilo para texto editável */
+        .editable {
+            border: 1px solid #ccc;
+            padding: 2px;
+            display: inline-block;
+            width: calc(100% - 56px); /* Largura do texto menos a largura dos botões */
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de tarefas</h1>
+    <div class="content">
+        <label for="novaAtividade">Nova Atividade:</label>
+        <input type="text" id="novaAtividade" name="novaAtividade" placeholder="Digite uma nova atividade">
+        <button id="adicionarAtividade">Adicionar</button>
+        <ul id="listaAtividades">
+            <!-- Aqui serão adicionadas as tarefas -->
+        </ul>
+    </div>
+
+    <script>
+        // Função para adicionar uma nova atividade à lista
+        function adicionarAtividade() {
+            // Obtém o valor digitado pelo usuário
+            var novaAtividade = document.getElementById("novaAtividade").value;
+
+            // Cria um novo item de lista
+            var novoItem = document.createElement("li");
+
+            // Cria uma caixa de seleção
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.addEventListener("click", function() {
+                // Adiciona ou remove a classe "concluida" no item da lista quando a caixa de seleção é clicada
+                if (this.checked) {
+                    textoAtividade.classList.add("concluida");
+                } else {
+                    textoAtividade.classList.remove("concluida");
+                }
+            });
+
+            // Cria o texto da atividade
+            var textoAtividade = document.createElement("span");
+            textoAtividade.textContent = novaAtividade;
+            textoAtividade.classList.add("editable");
+            textoAtividade.addEventListener("dblclick", function() {
+                // Verifica se a tarefa não está concluída antes de tornar o texto editável
+                if (!checkbox.checked) {
+                    textoAtividade.setAttribute("contenteditable", true);
+                    textoAtividade.focus(); // Coloca o foco no texto editável
+                }
+            });
+            textoAtividade.addEventListener("blur", function() {
+                textoAtividade.setAttribute("contenteditable", false);
+            });
+
+            // Adiciona a caixa de seleção e o texto da atividade ao novo item
+            novoItem.appendChild(checkbox);
+            novoItem.appendChild(textoAtividade);
+
+            // Cria um botão de remoção
+            var botaoRemover = document.createElement("button");
+            botaoRemover.textContent = "x";
+            botaoRemover.onclick = function() {
+                novoItem.remove();
+            };
+            novoItem.appendChild(botaoRemover);
+
+            // Adiciona o novo item à lista
+            document.getElementById("listaAtividades").appendChild(novoItem);
+
+            // Limpa o campo de texto após adicionar a atividade
+            document.getElementById("novaAtividade").value = "";
+        }
+
+        // Adiciona um event listener ao botão para chamar a função ao clicar
+        document.getElementById("adicionarAtividade").addEventListener("click", adicionarAtividade);
+    </script>
+</body>
+</html>
