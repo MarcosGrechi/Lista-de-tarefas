@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de tarefas</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+   
+   <style>
         h1 {
-            color:rgb(29, 117, 146);
+            color: rgb(29, 117, 146);
         }
 
         /* Estilos para preencher toda a área do navegador */
@@ -20,7 +21,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            font-size: 20px;
+            font-size: 15px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -34,20 +35,31 @@
 
         button {
             padding: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .check {
+            cursor: pointer;
+        }
+
+        button.delete {
+            background-color: transparent;
+            color: rgb(29, 117, 146);
+            cursor: pointer;
+            font-size: 16px;
+            border: none; /* Adicionado para garantir que o ícone seja visível */
         }
 
         ul {
             list-style: none;
+            padding: 0;
         }
 
         li {
             padding: 5px;
-        }
-
-        /* Remove os pontos e o espaçamento à esquerda da lista */
-        #listaAtividades {
-            list-style-type: none;
-            padding-left: 0;
+            display: flex;
+            align-items: center;
         }
 
         /* Estilo para texto riscado */
@@ -57,10 +69,12 @@
 
         /* Estilo para texto editável */
         .editable {
-            border: 1px solid #ccc;
-            padding: 2px;
-            display: inline-block;
-            width: calc(100% - 56px); /* Largura do texto menos a largura dos botões */
+            border: 1px solid rgb(29, 117, 146);
+            padding: 5px;
+            margin-left: 5px;
+            flex: 1;
+            background-color: rgba(0, 0, 0, 0.165);
+            cursor: text; /* Adicionado para indicar que o texto é editável */
         }
     </style>
 </head>
@@ -71,67 +85,84 @@
         <input type="text" id="novaAtividade" name="novaAtividade" placeholder="Digite uma nova atividade">
         <button id="adicionarAtividade">Adicionar</button>
         <ul id="listaAtividades">
-            <!-- Aqui serão adicionadas as tarefas -->
+            <!-- Tarefas pré-definidas -->
+            <li>
+                <input type="checkbox" class="check" checked onclick="checkTask(this)">
+                <span class="editable concluida" onclick="editTask(this)">Estudar HTML e CSS</span>
+                <button class="delete" onclick="deleteTask(this)"><i class='bx bxs-trash' style='font-size: 24px;'></i></button>
+            </li>
+            <li>
+                <input type="checkbox" class="check" onclick="checkTask(this)">
+                <span class="editable" onclick="editTask(this)">Estudar JavaScript</span>
+                <button class="delete" onclick="deleteTask(this)"><i class='bx bxs-trash' style='font-size: 24px;'></i></button>
+            </li>
         </ul>
     </div>
 
     <script>
-        // Função para adicionar uma nova atividade à lista
-        function adicionarAtividade() {
-            // Obtém o valor digitado pelo usuário
-            var novaAtividade = document.getElementById("novaAtividade").value;
-
-            // Cria um novo item de lista
-            var novoItem = document.createElement("li");
-
-            // Cria uma caixa de seleção
-            var checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.addEventListener("click", function() {
-                // Adiciona ou remove a classe "concluida" no item da lista quando a caixa de seleção é clicada
-                if (this.checked) {
-                    textoAtividade.classList.add("concluida");
-                } else {
-                    textoAtividade.classList.remove("concluida");
-                }
-            });
-
-            // Cria o texto da atividade
-            var textoAtividade = document.createElement("span");
-            textoAtividade.textContent = novaAtividade;
-            textoAtividade.classList.add("editable");
-            textoAtividade.addEventListener("dblclick", function() {
-                // Verifica se a tarefa não está concluída antes de tornar o texto editável
-                if (!checkbox.checked) {
-                    textoAtividade.setAttribute("contenteditable", true);
-                    textoAtividade.focus(); // Coloca o foco no texto editável
-                }
-            });
-            textoAtividade.addEventListener("blur", function() {
-                textoAtividade.setAttribute("contenteditable", false);
-            });
-
-            // Adiciona a caixa de seleção e o texto da atividade ao novo item
-            novoItem.appendChild(checkbox);
-            novoItem.appendChild(textoAtividade);
-
-            // Cria um botão de remoção
-            var botaoRemover = document.createElement("button");
-            botaoRemover.textContent = "x";
-            botaoRemover.onclick = function() {
-                novoItem.remove();
-            };
-            novoItem.appendChild(botaoRemover);
-
-            // Adiciona o novo item à lista
-            document.getElementById("listaAtividades").appendChild(novoItem);
-
-            // Limpa o campo de texto após adicionar a atividade
-            document.getElementById("novaAtividade").value = "";
+        function editTask(element) {
+            if (!element.previousElementSibling.checked) {
+                element.setAttribute("contenteditable", true);
+                element.focus();
+            }
         }
 
-        // Adiciona um event listener ao botão para chamar a função ao clicar
-        document.getElementById("adicionarAtividade").addEventListener("click", adicionarAtividade);
+        function deleteTask(button) {
+            button.parentNode.remove();
+        }
+
+        function checkTask(checkbox) {
+            var span = checkbox.nextElementSibling;
+            if (checkbox.checked) {
+                span.classList.add('concluida');
+            } else {
+                span.classList.remove('concluida');
+            }
+        }
+
+        function addTask() {
+            var novaAtividade = document.getElementById("novaAtividade").value;
+            if (novaAtividade.trim() !== "") {
+                var novoItem = document.createElement("li");
+                var checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.classList.add("check");
+                checkbox.addEventListener("click", function() {
+                    checkTask(this);
+                });
+                var textoAtividade = document.createElement("span");
+                textoAtividade.textContent = novaAtividade;
+                textoAtividade.classList.add("editable");
+                textoAtividade.addEventListener("click", function() {
+                    if (!checkbox.checked) {
+                        this.setAttribute("contenteditable", true);
+                        this.focus();
+                    }
+                });
+                textoAtividade.addEventListener("blur", function() {
+                    this.setAttribute("contenteditable", false);
+                });
+                novoItem.appendChild(checkbox);
+                novoItem.appendChild(textoAtividade);
+                var botaoRemover = document.createElement("button");
+                botaoRemover.classList.add("delete");
+                botaoRemover.innerHTML = "<i class='bx bxs-trash' style='font-size: 24px;'></i>";
+                botaoRemover.onclick = function() {
+                    deleteTask(this);
+                };
+                novoItem.appendChild(botaoRemover);
+                document.getElementById("listaAtividades").appendChild(novoItem);
+                document.getElementById("novaAtividade").value = "";
+            }
+        }
+
+        document.getElementById("adicionarAtividade").addEventListener("click", addTask);
+
+        document.getElementById("novaAtividade").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
     </script>
 </body>
 </html>
