@@ -1,0 +1,166 @@
+/* Estilo para o cabeçalho h1 */
+h1 {
+    color: aliceblue; /* Define a cor do texto */
+    display: flex;
+    justify-content: center; /* Centraliza o texto horizontalmente */
+    background-color: aliceblue;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 100px 20px #4613d4 inset;
+    
+}
+
+/* Estilos para preencher toda a área do navegador */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Estilos para o corpo da página */
+body {
+    font-family: 'Roboto Slab', sans-serif; /* Define a fonte do corpo do documento */
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza os elementos verticalmente */
+    align-items: center; /* Centraliza os elementos horizontalmente */
+    background-color: lightblue; /* Define a cor de fundo */
+}
+
+/* Estilo para o conteúdo */
+.content {
+    text-align: center; /* Centraliza o texto dentro do conteúdo */
+}
+
+/* Estilos para botões */
+button {
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #4713d4d9;
+    color: aliceblue;
+}
+
+/* Estilo para checkbox */
+.check {
+    cursor: pointer;
+}
+
+/* Estilos para botão de exclusão */
+button.delete {
+    background-color: transparent;
+    color: #4713d4d9; /* Define a cor do texto */
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+}
+
+/* Estilos para listas */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Estilos para itens de lista */
+li {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+/* Estilos para tarefas */
+.tarefa span {
+    border-radius: 10px;
+    background-color: #4713d4d9;
+    color: aliceblue; /* Define a cor do texto */
+}
+
+
+/* Estilos para rótulos */
+.content label {
+    border-radius: 10px;
+    background-color: #4713d4d9;
+    padding: 5px;
+    color: aliceblue; /* Define a cor do texto */
+}
+
+/* Estilos para campos de entrada de texto */
+.content input[type="text"] {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+/* Estilo para texto riscado */
+.concluida {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+/* Estilo para texto editável */
+.editable {
+    border: 1px solid rgb(29, 117, 146);
+    padding: 5px;
+    margin-left: 5px;
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.165);
+    cursor: text;
+}
+
+/* Estilos para botão "Selecionar Todas" */
+#selecionarTodas {
+    margin-bottom: 10px;
+}
+
+/* Estilos para botão de exclusão */
+.botao-excluir {
+    background-color: transparent;
+    color: #ff0000;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Estilos para alertas */
+.custom-alert, .confirm-delete-alert {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+}
+
+/* Estilos para botões de fechar alerta e confirmar exclusão */
+.close-alert, .confirm-delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.close-alert:hover, .confirm-delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Estilos para o texto p */
+p {
+    font-weight: bold;
+    color: #4713d4d9; /* Define a cor do texto */
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-align: center; /* Centraliza o texto */
+}

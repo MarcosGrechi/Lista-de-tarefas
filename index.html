@@ -4,165 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de tarefas</title>
+    <!-- Links para fontes e ícones -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-   
-   <style>
-        h1 {
-            color: rgb(29, 117, 146);
-        }
-
-        /* Estilos para preencher toda a área do navegador */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: lightblue;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        button {
-            padding: 5px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .check {
-            cursor: pointer;
-        }
-
-        button.delete {
-            background-color: transparent;
-            color: rgb(29, 117, 146);
-            cursor: pointer;
-            font-size: 16px;
-            border: none; /* Adicionado para garantir que o ícone seja visível */
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            padding: 5px;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Estilo para texto riscado */
-        .concluida {
-            text-decoration: line-through;
-        }
-
-        /* Estilo para texto editável */
-        .editable {
-            border: 1px solid rgb(29, 117, 146);
-            padding: 5px;
-            margin-left: 5px;
-            flex: 1;
-            background-color: rgba(0, 0, 0, 0.165);
-            cursor: text; /* Adicionado para indicar que o texto é editável */
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+    <!-- Link para o arquivo de estilo CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Lista de tarefas</h1>
-    <div class="content">
-        <label for="novaAtividade">Nova Atividade:</label>
-        <input type="text" id="novaAtividade" name="novaAtividade" placeholder="Digite uma nova atividade">
-        <button id="adicionarAtividade">Adicionar</button>
-        <ul id="listaAtividades">
-            <!-- Tarefas pré-definidas -->
-            <li>
-                <input type="checkbox" class="check" checked onclick="checkTask(this)">
-                <span class="editable concluida" onclick="editTask(this)">Estudar HTML e CSS</span>
-                <button class="delete" onclick="deleteTask(this)"><i class='bx bxs-trash' style='font-size: 24px;'></i></button>
-            </li>
-            <li>
-                <input type="checkbox" class="check" onclick="checkTask(this)">
-                <span class="editable" onclick="editTask(this)">Estudar JavaScript</span>
-                <button class="delete" onclick="deleteTask(this)"><i class='bx bxs-trash' style='font-size: 24px;'></i></button>
-            </li>
-        </ul>
+    <div class="container">
+        <!-- Título da página -->
+        <h1>Lista de tarefas</h1>
+        <div class="content">
+            <!-- Formulário para adicionar nova atividade -->
+            <label for="novaAtividade">Nova Atividade:</label>
+            <input type="text" id="novaAtividade" name="novaAtividade" placeholder="Digite uma nova atividade">
+            <button id="adicionarAtividade" class="adicionarAtividade">Adicionar</button>
+            <!-- Lista de atividades -->
+            <ul id="listaAtividades" class="listaAtividades">
+                <!-- Tarefas pré-definidas -->
+                <li class="tarefa">
+                    <input type="checkbox" class="check" checked onclick="checkTask(this)">
+                    <span class="editable concluida" onclick="editTask(this)">Estudar HTML e CSS</span>
+                    <button class="delete botao-excluir" onclick="confirmDeleteTask(this)"><i class='bx bxs-trash' style='font-size: 24px;'></i></button>
+                </li>
+                <li class="tarefa">
+                    <input type="checkbox" class="check" onclick="checkTask(this)">
+                    <span class="editable" onclick="editTask(this)">Estudar JavaScript</span>
+                    <button class="delete botao-excluir" onclick="confirmDeleteTask(this)"><i class='bx bxs-trash' style='font-size: 24px;'></i></button>
+                </li>
+            </ul>
+            <!-- Opção para selecionar todas as tarefas -->
+            <input type="checkbox" id="selecionarTodas" class="selecionarTodas"> Selecionar Todas
+            <!-- Botão para apagar tarefas concluídas -->
+            <button id="apagarConcluidas" class="apagarConcluidas">Apagar Concluídas</button>
+        </div>
+        <!-- Contador de tarefas -->
+        <p id="contador" class="contador">Número de tarefas: 2</p>
+        <!-- Alerta customizado -->
+        <div id="customAlert" class="custom-alert">
+            <span id="alertMessage" class="alert-message"></span>
+            <button id="closeAlert" class="close-alert">Fechar</button>
+        </div>
+        <!-- Alerta de confirmação para excluir tarefas -->
+        <div id="confirmDeleteAlert" class="confirm-delete-alert">
+            <p id="confirmDeleteMessage" class="confirm-delete-message"></p>
+            <div class="confirm-delete-buttons">
+                <button id="confirmDeleteButton" class="confirm-delete-button">Confirmar</button>
+                <button onclick="cancelDelete()" class="confirm-delete-button">Cancelar</button>
+            </div>
+        </div>
+        <!-- Alerta de confirmação para excluir todas as tarefas concluídas -->
+        <div id="confirmDeleteCompletedAlert" class="confirm-delete-alert">
+            <p id="confirmDeleteCompletedMessage" class="confirm-delete-message">Tem certeza que deseja excluir todas as tarefas concluídas?</p>
+            <div class="confirm-delete-buttons">
+                <button id="confirmDeleteCompletedButton" class="confirm-delete-button">Confirmar</button>
+                <button onclick="cancelDelete()" class="confirm-delete-button">Cancelar</button>
+            </div>
+        </div>
     </div>
+    
 
-    <script>
-        function editTask(element) {
-            if (!element.previousElementSibling.checked) {
-                element.setAttribute("contenteditable", true);
-                element.focus();
-            }
-        }
-
-        function deleteTask(button) {
-            button.parentNode.remove();
-        }
-
-        function checkTask(checkbox) {
-            var span = checkbox.nextElementSibling;
-            if (checkbox.checked) {
-                span.classList.add('concluida');
-            } else {
-                span.classList.remove('concluida');
-            }
-        }
-
-        function addTask() {
-            var novaAtividade = document.getElementById("novaAtividade").value;
-            if (novaAtividade.trim() !== "") {
-                var novoItem = document.createElement("li");
-                var checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.classList.add("check");
-                checkbox.addEventListener("click", function() {
-                    checkTask(this);
-                });
-                var textoAtividade = document.createElement("span");
-                textoAtividade.textContent = novaAtividade;
-                textoAtividade.classList.add("editable");
-                textoAtividade.addEventListener("click", function() {
-                    if (!checkbox.checked) {
-                        this.setAttribute("contenteditable", true);
-                        this.focus();
-                    }
-                });
-                textoAtividade.addEventListener("blur", function() {
-                    this.setAttribute("contenteditable", false);
-                });
-                novoItem.appendChild(checkbox);
-                novoItem.appendChild(textoAtividade);
-                var botaoRemover = document.createElement("button");
-                botaoRemover.classList.add("delete");
-                botaoRemover.innerHTML = "<i class='bx bxs-trash' style='font-size: 24px;'></i>";
-                botaoRemover.onclick = function() {
-                    deleteTask(this);
-                };
-                novoItem.appendChild(botaoRemover);
-                document.getElementById("listaAtividades").appendChild(novoItem);
-                document.getElementById("novaAtividade").value = "";
-            }
-        }
-
-        document.getElementById("adicionarAtividade").addEventListener("click", addTask);
-
-        document.getElementById("novaAtividade").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                addTask();
-            }
-        });
-    </script>
+    <!-- Script JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
